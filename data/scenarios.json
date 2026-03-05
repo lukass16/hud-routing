@@ -1,0 +1,472 @@
+[
+  {
+    "id": "arxiv-find-paper",
+    "name": "find-paper",
+    "environment": "arxiv-env",
+    "description": "Find a specific academic paper by description, title keywords, or author name. Searches arXiv and returns full metadata including abstract, authors, and publication date.",
+    "tools": [
+      { "name": "search_papers", "description": "Search arXiv papers by keyword, author, category. Supports field prefixes (ti:, au:, cat:, abs:)." },
+      { "name": "get_paper", "description": "Fetch full metadata for a specific paper by arXiv ID." },
+      { "name": "get_citations", "description": "Get citation count and top citing papers via Semantic Scholar." }
+    ],
+    "parameters": [
+      { "name": "query", "type": "string", "description": "Natural language description of the paper to find", "required": true },
+      { "name": "expected_id", "type": "string", "description": "Expected arXiv ID for verification", "required": false }
+    ],
+    "syntheticQueries": [
+      "find the attention is all you need paper",
+      "search for papers on RLHF",
+      "who wrote the LoRA paper",
+      "find recent diffusion model research",
+      "look up the original BERT paper",
+      "find the most cited paper on transformers",
+      "what's the paper about constitutional AI"
+    ],
+    "metadata": { "category": "research", "successRate": 0.89 }
+  },
+  {
+    "id": "arxiv-author-papers",
+    "name": "author-papers",
+    "environment": "arxiv-env",
+    "description": "Find all papers by a specific author, optionally filtered by subject category. Returns a list of papers with titles, dates, and co-authors.",
+    "tools": [
+      { "name": "search_by_author", "description": "Find all papers by a specific author." },
+      { "name": "search_papers", "description": "Search arXiv papers by keyword, author, category." }
+    ],
+    "parameters": [
+      { "name": "author", "type": "string", "description": "Author name to search for", "required": true },
+      { "name": "category", "type": "string", "description": "arXiv category filter (e.g. cs.AI, cs.CL)", "required": false }
+    ],
+    "syntheticQueries": [
+      "what papers has Andrej Karpathy written",
+      "show me all papers by Yann LeCun",
+      "find Ilya Sutskever's publications",
+      "list Geoffrey Hinton's recent papers",
+      "papers by Fei-Fei Li in computer vision"
+    ],
+    "metadata": { "category": "research", "successRate": 0.92 }
+  },
+  {
+    "id": "arxiv-recent-papers",
+    "name": "recent-papers",
+    "environment": "arxiv-env",
+    "description": "Find the most recent papers in a specific arXiv category within a date window. Great for staying current on research trends.",
+    "tools": [
+      { "name": "search_by_category", "description": "Find papers in a subject category with optional date filtering." },
+      { "name": "search_papers", "description": "Search arXiv papers by keyword, author, category." }
+    ],
+    "parameters": [
+      { "name": "category", "type": "string", "description": "arXiv category (e.g. cs.AI, cs.LG, cs.CV)", "required": true },
+      { "name": "n", "type": "number", "description": "Number of papers to return", "required": false },
+      { "name": "date_window", "type": "string", "description": "Time window (e.g. '7d', '30d', '90d')", "required": false }
+    ],
+    "syntheticQueries": [
+      "latest computer vision papers on arxiv",
+      "what's new in machine learning research this week",
+      "recent NLP papers from the last month",
+      "show me new reinforcement learning papers",
+      "trending papers in cs.AI this week"
+    ],
+    "metadata": { "category": "research", "successRate": 0.95 }
+  },
+  {
+    "id": "hud-research",
+    "name": "research",
+    "environment": "hud-research-env",
+    "description": "Open-ended web research agent. Browses the web, synthesizes information, and produces comprehensive research reports on any topic.",
+    "tools": [
+      { "name": "web_search", "description": "Search the web using Exa for high-quality results." },
+      { "name": "browse_page", "description": "Read and extract content from a webpage." },
+      { "name": "write_report", "description": "Produce a structured research report with citations." }
+    ],
+    "parameters": [
+      { "name": "topic", "type": "string", "description": "Research topic or question", "required": true },
+      { "name": "depth", "type": "string", "description": "Research depth: 'quick', 'standard', 'deep'", "required": false }
+    ],
+    "syntheticQueries": [
+      "research the latest developments in quantum computing",
+      "write a report on the state of AI regulation in Europe",
+      "investigate competitor pricing strategies",
+      "what are the trends in remote work 2025",
+      "deep dive into the current state of fusion energy",
+      "research best practices for LLM fine-tuning"
+    ],
+    "metadata": { "category": "research", "successRate": 0.85 }
+  },
+  {
+    "id": "hud-browser",
+    "name": "browser-automation",
+    "environment": "hud-browser-env",
+    "description": "Browser automation agent that can navigate websites, fill forms, click buttons, and extract data. Useful for web scraping, testing, and automated workflows.",
+    "tools": [
+      { "name": "navigate", "description": "Navigate to a URL in the browser." },
+      { "name": "click", "description": "Click an element on the page." },
+      { "name": "type_text", "description": "Type text into an input field." },
+      { "name": "screenshot", "description": "Take a screenshot of the current page." },
+      { "name": "extract_text", "description": "Extract text content from the page." }
+    ],
+    "parameters": [
+      { "name": "url", "type": "string", "description": "Starting URL for the automation", "required": true },
+      { "name": "task", "type": "string", "description": "Description of what to do in the browser", "required": true }
+    ],
+    "syntheticQueries": [
+      "fill out the registration form on this website",
+      "scrape product prices from this e-commerce page",
+      "navigate to my dashboard and download the report",
+      "test the login flow on our staging site",
+      "extract all email addresses from this directory page"
+    ],
+    "metadata": { "category": "automation", "successRate": 0.78 }
+  },
+  {
+    "id": "hud-coding",
+    "name": "code-assistant",
+    "environment": "hud-coding-env",
+    "description": "Full-featured coding environment with language servers, linters, and development tools. Can write, edit, debug, and test code across multiple languages.",
+    "tools": [
+      { "name": "read_file", "description": "Read the contents of a file." },
+      { "name": "write_file", "description": "Write or overwrite a file." },
+      { "name": "run_command", "description": "Execute a shell command." },
+      { "name": "search_code", "description": "Search for patterns in the codebase." },
+      { "name": "run_tests", "description": "Run test suite and return results." }
+    ],
+    "parameters": [
+      { "name": "repository", "type": "string", "description": "Path or URL to the code repository", "required": true },
+      { "name": "task", "type": "string", "description": "Coding task description", "required": true }
+    ],
+    "syntheticQueries": [
+      "fix the failing tests in the auth module",
+      "refactor the database layer to use connection pooling",
+      "add input validation to the API endpoints",
+      "write unit tests for the payment service",
+      "debug the memory leak in the worker process"
+    ],
+    "metadata": { "category": "development", "successRate": 0.82 }
+  },
+  {
+    "id": "github-triage",
+    "name": "triage-issues",
+    "environment": "github-env",
+    "description": "Triage GitHub issues by analyzing content, applying labels, assigning priority, and routing to the right team member.",
+    "tools": [
+      { "name": "list_issues", "description": "List open issues with optional filters." },
+      { "name": "get_issue", "description": "Get detailed issue information." },
+      { "name": "add_labels", "description": "Add labels to an issue." },
+      { "name": "assign_issue", "description": "Assign issue to a user." }
+    ],
+    "parameters": [
+      { "name": "repo", "type": "string", "description": "GitHub repository (owner/repo)", "required": true },
+      { "name": "filter", "type": "string", "description": "Issue filter criteria", "required": false }
+    ],
+    "syntheticQueries": [
+      "label all new github issues",
+      "triage the bug reports from this week",
+      "assign unassigned issues to the right team",
+      "categorize open issues by severity",
+      "find duplicate issues and link them"
+    ],
+    "metadata": { "category": "development", "successRate": 0.88 }
+  },
+  {
+    "id": "github-pr-review",
+    "name": "review-pull-request",
+    "environment": "github-env",
+    "description": "Review pull requests for code quality, potential bugs, security issues, and adherence to coding standards. Provides inline comments and an overall review summary.",
+    "tools": [
+      { "name": "get_pr", "description": "Get pull request details and diff." },
+      { "name": "list_files", "description": "List changed files in the PR." },
+      { "name": "add_comment", "description": "Add a review comment on a specific line." },
+      { "name": "submit_review", "description": "Submit the review with approval or changes requested." }
+    ],
+    "parameters": [
+      { "name": "repo", "type": "string", "description": "GitHub repository (owner/repo)", "required": true },
+      { "name": "pr_number", "type": "number", "description": "Pull request number", "required": true }
+    ],
+    "syntheticQueries": [
+      "review the latest pull request on our repo",
+      "check this PR for security vulnerabilities",
+      "review code quality in PR #42",
+      "look for performance issues in the pending PRs",
+      "review the frontend refactor pull request"
+    ],
+    "metadata": { "category": "development", "successRate": 0.84 }
+  },
+  {
+    "id": "sentry-diagnostics",
+    "name": "diagnose-error",
+    "environment": "sentry-env",
+    "description": "Investigate Sentry error reports. Analyze stack traces, identify root causes, check error frequency and affected users.",
+    "tools": [
+      { "name": "list_errors", "description": "List recent Sentry errors with frequency data." },
+      { "name": "get_error_details", "description": "Get full error details and stack trace." },
+      { "name": "get_error_frequency", "description": "Get error occurrence frequency over time." }
+    ],
+    "parameters": [
+      { "name": "project", "type": "string", "description": "Sentry project slug", "required": true },
+      { "name": "timeframe", "type": "string", "description": "Time window to search (e.g. '24h', '7d')", "required": false }
+    ],
+    "syntheticQueries": [
+      "why are we getting null pointer errors in production",
+      "investigate the most frequent error this week",
+      "diagnose the checkout page crash",
+      "what's causing the 500 errors on the API",
+      "how many users are affected by the login bug"
+    ],
+    "metadata": { "category": "devops", "successRate": 0.80 }
+  },
+  {
+    "id": "db-query",
+    "name": "query-database",
+    "environment": "database-env",
+    "description": "Query and analyze data from SQL databases. Generate queries, run them, and interpret results. Supports PostgreSQL, MySQL, and SQLite.",
+    "tools": [
+      { "name": "run_query", "description": "Execute a SQL query and return results." },
+      { "name": "list_tables", "description": "List available tables and views." },
+      { "name": "describe_table", "description": "Get table schema with column types." }
+    ],
+    "parameters": [
+      { "name": "connection", "type": "string", "description": "Database connection identifier", "required": true },
+      { "name": "question", "type": "string", "description": "Natural language question about the data", "required": true }
+    ],
+    "syntheticQueries": [
+      "how many signups did we get last month",
+      "query the revenue data for Q3",
+      "find all users who churned in the last 30 days",
+      "what's the average order value by country",
+      "show me the top 10 customers by lifetime value"
+    ],
+    "metadata": { "category": "data", "successRate": 0.90 }
+  },
+  {
+    "id": "slack-summary",
+    "name": "summarize-channel",
+    "environment": "slack-env",
+    "description": "Summarize Slack channel conversations. Extract key decisions, action items, and important mentions from any time period.",
+    "tools": [
+      { "name": "read_channel", "description": "Read messages from a Slack channel." },
+      { "name": "search_messages", "description": "Search across all channels for specific topics." }
+    ],
+    "parameters": [
+      { "name": "channel", "type": "string", "description": "Slack channel name or ID", "required": true },
+      { "name": "timeframe", "type": "string", "description": "Time window (e.g. 'today', 'this week')", "required": false }
+    ],
+    "syntheticQueries": [
+      "summarize what happened in #engineering today",
+      "what decisions were made in the product meeting",
+      "find action items from this week's standups",
+      "what did the team discuss about the launch",
+      "catch me up on #general from the past 3 days"
+    ],
+    "metadata": { "category": "communication", "successRate": 0.87 }
+  },
+  {
+    "id": "email-draft",
+    "name": "draft-email",
+    "environment": "email-env",
+    "description": "Draft professional emails based on context and instructions. Can handle cold outreach, follow-ups, internal communications, and customer responses.",
+    "tools": [
+      { "name": "search_contacts", "description": "Search for contacts by name or company." },
+      { "name": "get_thread", "description": "Get the email thread for context." },
+      { "name": "draft_email", "description": "Create a draft email." }
+    ],
+    "parameters": [
+      { "name": "to", "type": "string", "description": "Recipient email or name", "required": true },
+      { "name": "intent", "type": "string", "description": "What the email should accomplish", "required": true }
+    ],
+    "syntheticQueries": [
+      "draft a follow-up email to the investor",
+      "write a cold outreach email to potential customers",
+      "compose a response to the client's feature request",
+      "draft an internal announcement about the new policy",
+      "write a thank you email after the interview"
+    ],
+    "metadata": { "category": "communication", "successRate": 0.91 }
+  },
+  {
+    "id": "deploy-status",
+    "name": "check-deployment",
+    "environment": "cicd-env",
+    "description": "Monitor and manage CI/CD deployments. Check pipeline status, view logs, trigger rollbacks, and verify deployment health.",
+    "tools": [
+      { "name": "get_pipeline_status", "description": "Get current pipeline status and stage details." },
+      { "name": "get_deploy_logs", "description": "Fetch deployment logs for a specific run." },
+      { "name": "trigger_rollback", "description": "Rollback to a previous deployment." },
+      { "name": "health_check", "description": "Run health checks against deployed services." }
+    ],
+    "parameters": [
+      { "name": "service", "type": "string", "description": "Service or application name", "required": true },
+      { "name": "environment", "type": "string", "description": "Target environment (staging, production)", "required": false }
+    ],
+    "syntheticQueries": [
+      "what's the status of the latest deployment",
+      "check if the production deploy succeeded",
+      "show me the deploy logs for the API service",
+      "rollback the frontend to the previous version",
+      "is the staging environment healthy"
+    ],
+    "metadata": { "category": "devops", "successRate": 0.93 }
+  },
+  {
+    "id": "k8s-ops",
+    "name": "kubernetes-ops",
+    "environment": "kubernetes-env",
+    "description": "Manage Kubernetes clusters. List pods, check logs, scale deployments, and troubleshoot cluster issues.",
+    "tools": [
+      { "name": "get_pods", "description": "List pods with status and resource usage." },
+      { "name": "get_logs", "description": "Fetch logs from a pod or container." },
+      { "name": "scale_deployment", "description": "Scale a deployment to N replicas." },
+      { "name": "describe_resource", "description": "Get detailed info about any K8s resource." }
+    ],
+    "parameters": [
+      { "name": "cluster", "type": "string", "description": "Kubernetes cluster name", "required": true },
+      { "name": "namespace", "type": "string", "description": "Kubernetes namespace", "required": false }
+    ],
+    "syntheticQueries": [
+      "why are pods crashing in production",
+      "scale the API deployment to 5 replicas",
+      "check resource usage across the cluster",
+      "show me logs from the failing pod",
+      "list all pods in the staging namespace"
+    ],
+    "metadata": { "category": "devops", "successRate": 0.86 }
+  },
+  {
+    "id": "data-viz",
+    "name": "create-visualization",
+    "environment": "analytics-env",
+    "description": "Create data visualizations and dashboards from CSV, JSON, or database sources. Generates charts, graphs, and interactive reports.",
+    "tools": [
+      { "name": "load_data", "description": "Load data from CSV, JSON, or database." },
+      { "name": "create_chart", "description": "Generate a chart (bar, line, scatter, pie, etc.)." },
+      { "name": "create_dashboard", "description": "Compose multiple charts into a dashboard." }
+    ],
+    "parameters": [
+      { "name": "data_source", "type": "string", "description": "Path or URL to the data source", "required": true },
+      { "name": "chart_type", "type": "string", "description": "Type of visualization to create", "required": false }
+    ],
+    "syntheticQueries": [
+      "create a revenue chart from this CSV",
+      "visualize user growth over the past year",
+      "build a dashboard showing key metrics",
+      "plot the correlation between features",
+      "make a pie chart of traffic sources"
+    ],
+    "metadata": { "category": "data", "successRate": 0.88 }
+  },
+  {
+    "id": "calendar-schedule",
+    "name": "schedule-meeting",
+    "environment": "calendar-env",
+    "description": "Manage calendar events. Find available time slots, schedule meetings, send invites, and handle rescheduling across multiple attendees.",
+    "tools": [
+      { "name": "get_availability", "description": "Check availability for one or more people." },
+      { "name": "create_event", "description": "Create a calendar event with attendees." },
+      { "name": "reschedule_event", "description": "Move an existing event to a new time." }
+    ],
+    "parameters": [
+      { "name": "attendees", "type": "string", "description": "Comma-separated list of attendee emails", "required": true },
+      { "name": "duration", "type": "number", "description": "Meeting duration in minutes", "required": false }
+    ],
+    "syntheticQueries": [
+      "schedule a 30-minute meeting with the design team",
+      "find a time that works for everyone next week",
+      "reschedule the standup to 10am",
+      "book a meeting room for the all-hands",
+      "when is everyone free for a sync this afternoon"
+    ],
+    "metadata": { "category": "productivity", "successRate": 0.90 }
+  },
+  {
+    "id": "file-search",
+    "name": "search-files",
+    "environment": "filesystem-env",
+    "description": "Search and manage local files. Find files by name, content, or metadata. Organize, rename, and batch-process files across directories.",
+    "tools": [
+      { "name": "search_files", "description": "Search files by name pattern or content." },
+      { "name": "read_file", "description": "Read file contents." },
+      { "name": "move_files", "description": "Move or rename files." },
+      { "name": "list_directory", "description": "List directory contents with metadata." }
+    ],
+    "parameters": [
+      { "name": "path", "type": "string", "description": "Root directory to search in", "required": true },
+      { "name": "pattern", "type": "string", "description": "Search pattern (glob or regex)", "required": false }
+    ],
+    "syntheticQueries": [
+      "find all PDF files in my downloads folder",
+      "search for files containing 'API_KEY'",
+      "organize my desktop files into folders by type",
+      "find the largest files on my drive",
+      "locate all config files in this project"
+    ],
+    "metadata": { "category": "productivity", "successRate": 0.94 }
+  },
+  {
+    "id": "api-test",
+    "name": "test-api",
+    "environment": "api-testing-env",
+    "description": "Test REST and GraphQL APIs. Send requests, validate responses, check status codes, and run automated test suites against endpoints.",
+    "tools": [
+      { "name": "send_request", "description": "Send an HTTP request (GET, POST, PUT, DELETE)." },
+      { "name": "validate_response", "description": "Validate response against a schema." },
+      { "name": "run_test_suite", "description": "Run a collection of API tests." }
+    ],
+    "parameters": [
+      { "name": "base_url", "type": "string", "description": "API base URL", "required": true },
+      { "name": "endpoint", "type": "string", "description": "Specific endpoint to test", "required": false }
+    ],
+    "syntheticQueries": [
+      "test the user registration endpoint",
+      "check if the payment API is returning correct responses",
+      "run the full API test suite against staging",
+      "test the GraphQL mutations for the order flow",
+      "verify the authentication endpoints handle edge cases"
+    ],
+    "metadata": { "category": "development", "successRate": 0.87 }
+  },
+  {
+    "id": "doc-writer",
+    "name": "write-documentation",
+    "environment": "docs-env",
+    "description": "Generate technical documentation from code. Create API docs, README files, architecture guides, and inline code documentation.",
+    "tools": [
+      { "name": "analyze_code", "description": "Analyze code structure and extract documentation targets." },
+      { "name": "generate_docs", "description": "Generate documentation in markdown format." },
+      { "name": "update_readme", "description": "Update or create a README file." }
+    ],
+    "parameters": [
+      { "name": "source_path", "type": "string", "description": "Path to the code to document", "required": true },
+      { "name": "doc_type", "type": "string", "description": "Type of documentation (api, readme, architecture)", "required": false }
+    ],
+    "syntheticQueries": [
+      "generate API documentation for our REST endpoints",
+      "write a README for this project",
+      "create an architecture decision record",
+      "document the authentication flow",
+      "update the API docs with the new endpoints"
+    ],
+    "metadata": { "category": "development", "successRate": 0.86 }
+  },
+  {
+    "id": "metrics-monitor",
+    "name": "monitor-metrics",
+    "environment": "monitoring-env",
+    "description": "Monitor application metrics and set up alerts. Track response times, error rates, throughput, and resource utilization from Datadog, Grafana, or CloudWatch.",
+    "tools": [
+      { "name": "query_metrics", "description": "Query time-series metrics data." },
+      { "name": "create_alert", "description": "Create an alert rule for a metric." },
+      { "name": "get_dashboard", "description": "Retrieve dashboard data and charts." }
+    ],
+    "parameters": [
+      { "name": "service", "type": "string", "description": "Service name to monitor", "required": true },
+      { "name": "metric", "type": "string", "description": "Specific metric to query", "required": false }
+    ],
+    "syntheticQueries": [
+      "what's the p99 latency for the API right now",
+      "set up an alert if error rate exceeds 5%",
+      "show me the CPU usage trend for the past hour",
+      "are there any anomalies in our response times",
+      "check the memory usage of the worker services"
+    ],
+    "metadata": { "category": "devops", "successRate": 0.91 }
+  }
+]

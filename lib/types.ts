@@ -15,6 +15,7 @@ export interface ScenarioEntry {
   id: string;
   name: string;
   environment: string;
+  model: string;
   description: string;
   tools: Tool[];
   parameters: Parameter[];

@@ -3,6 +3,7 @@
     "id": "arxiv-find-paper",
     "name": "find-paper",
     "environment": "arxiv-env",
+    "model": "gpt-4o",
     "description": "Find a specific academic paper by description, title keywords, or author name. Searches arXiv and returns full metadata including abstract, authors, and publication date.",
     "tools": [
       { "name": "search_papers", "description": "Search arXiv papers by keyword, author, category. Supports field prefixes (ti:, au:, cat:, abs:)." },
@@ -28,6 +29,7 @@
     "id": "arxiv-author-papers",
     "name": "author-papers",
     "environment": "arxiv-env",
+    "model": "gpt-4o",
     "description": "Find all papers by a specific author, optionally filtered by subject category. Returns a list of papers with titles, dates, and co-authors.",
     "tools": [
       { "name": "search_by_author", "description": "Find all papers by a specific author." },
@@ -50,6 +52,7 @@
     "id": "arxiv-recent-papers",
     "name": "recent-papers",
     "environment": "arxiv-env",
+    "model": "gpt-4o-mini",
     "description": "Find the most recent papers in a specific arXiv category within a date window. Great for staying current on research trends.",
     "tools": [
       { "name": "search_by_category", "description": "Find papers in a subject category with optional date filtering." },
@@ -73,6 +76,7 @@
     "id": "hud-research",
     "name": "research",
     "environment": "hud-research-env",
+    "model": "claude-sonnet-4",
     "description": "Open-ended web research agent. Browses the web, synthesizes information, and produces comprehensive research reports on any topic.",
     "tools": [
       { "name": "web_search", "description": "Search the web using Exa for high-quality results." },
@@ -97,6 +101,7 @@
     "id": "hud-browser",
     "name": "browser-automation",
     "environment": "hud-browser-env",
+    "model": "claude-sonnet-4",
     "description": "Browser automation agent that can navigate websites, fill forms, click buttons, and extract data. Useful for web scraping, testing, and automated workflows.",
     "tools": [
       { "name": "navigate", "description": "Navigate to a URL in the browser." },
@@ -122,6 +127,7 @@
     "id": "hud-coding",
     "name": "code-assistant",
     "environment": "hud-coding-env",
+    "model": "claude-sonnet-4",
     "description": "Full-featured coding environment with language servers, linters, and development tools. Can write, edit, debug, and test code across multiple languages.",
     "tools": [
       { "name": "read_file", "description": "Read the contents of a file." },
@@ -147,6 +153,7 @@
     "id": "github-triage",
     "name": "triage-issues",
     "environment": "github-env",
+    "model": "gpt-4o-mini",
     "description": "Triage GitHub issues by analyzing content, applying labels, assigning priority, and routing to the right team member.",
     "tools": [
       { "name": "list_issues", "description": "List open issues with optional filters." },
@@ -171,6 +178,7 @@
     "id": "github-pr-review",
     "name": "review-pull-request",
     "environment": "github-env",
+    "model": "claude-opus-4",
     "description": "Review pull requests for code quality, potential bugs, security issues, and adherence to coding standards. Provides inline comments and an overall review summary.",
     "tools": [
       { "name": "get_pr", "description": "Get pull request details and diff." },
@@ -195,6 +203,7 @@
     "id": "sentry-diagnostics",
     "name": "diagnose-error",
     "environment": "sentry-env",
+    "model": "gpt-4o",
     "description": "Investigate Sentry error reports. Analyze stack traces, identify root causes, check error frequency and affected users.",
     "tools": [
       { "name": "list_errors", "description": "List recent Sentry errors with frequency data." },
@@ -218,6 +227,7 @@
     "id": "db-query",
     "name": "query-database",
     "environment": "database-env",
+    "model": "gpt-4o",
     "description": "Query and analyze data from SQL databases. Generate queries, run them, and interpret results. Supports PostgreSQL, MySQL, and SQLite.",
     "tools": [
       { "name": "run_query", "description": "Execute a SQL query and return results." },
@@ -241,6 +251,7 @@
     "id": "slack-summary",
     "name": "summarize-channel",
     "environment": "slack-env",
+    "model": "gemini-2.0-flash",
     "description": "Summarize Slack channel conversations. Extract key decisions, action items, and important mentions from any time period.",
     "tools": [
       { "name": "read_channel", "description": "Read messages from a Slack channel." },
@@ -263,6 +274,7 @@
     "id": "email-draft",
     "name": "draft-email",
     "environment": "email-env",
+    "model": "claude-sonnet-4",
     "description": "Draft professional emails based on context and instructions. Can handle cold outreach, follow-ups, internal communications, and customer responses.",
     "tools": [
       { "name": "search_contacts", "description": "Search for contacts by name or company." },
@@ -286,6 +298,7 @@
     "id": "deploy-status",
     "name": "check-deployment",
     "environment": "cicd-env",
+    "model": "gpt-4o-mini",
     "description": "Monitor and manage CI/CD deployments. Check pipeline status, view logs, trigger rollbacks, and verify deployment health.",
     "tools": [
       { "name": "get_pipeline_status", "description": "Get current pipeline status and stage details." },
@@ -310,6 +323,7 @@
     "id": "k8s-ops",
     "name": "kubernetes-ops",
     "environment": "kubernetes-env",
+    "model": "gpt-4o",
     "description": "Manage Kubernetes clusters. List pods, check logs, scale deployments, and troubleshoot cluster issues.",
     "tools": [
       { "name": "get_pods", "description": "List pods with status and resource usage." },
@@ -334,6 +348,7 @@
     "id": "data-viz",
     "name": "create-visualization",
     "environment": "analytics-env",
+    "model": "gemini-2.0-flash",
     "description": "Create data visualizations and dashboards from CSV, JSON, or database sources. Generates charts, graphs, and interactive reports.",
     "tools": [
       { "name": "load_data", "description": "Load data from CSV, JSON, or database." },
@@ -357,6 +372,7 @@
     "id": "calendar-schedule",
     "name": "schedule-meeting",
     "environment": "calendar-env",
+    "model": "gpt-4o-mini",
     "description": "Manage calendar events. Find available time slots, schedule meetings, send invites, and handle rescheduling across multiple attendees.",
     "tools": [
       { "name": "get_availability", "description": "Check availability for one or more people." },
@@ -380,6 +396,7 @@
     "id": "file-search",
     "name": "search-files",
     "environment": "filesystem-env",
+    "model": "gpt-4o-mini",
     "description": "Search and manage local files. Find files by name, content, or metadata. Organize, rename, and batch-process files across directories.",
     "tools": [
       { "name": "search_files", "description": "Search files by name pattern or content." },
@@ -404,6 +421,7 @@
     "id": "api-test",
     "name": "test-api",
     "environment": "api-testing-env",
+    "model": "gpt-4o",
     "description": "Test REST and GraphQL APIs. Send requests, validate responses, check status codes, and run automated test suites against endpoints.",
     "tools": [
       { "name": "send_request", "description": "Send an HTTP request (GET, POST, PUT, DELETE)." },
@@ -427,6 +445,7 @@
     "id": "doc-writer",
     "name": "write-documentation",
     "environment": "docs-env",
+    "model": "claude-sonnet-4",
     "description": "Generate technical documentation from code. Create API docs, README files, architecture guides, and inline code documentation.",
     "tools": [
       { "name": "analyze_code", "description": "Analyze code structure and extract documentation targets." },
@@ -450,6 +469,7 @@
     "id": "metrics-monitor",
     "name": "monitor-metrics",
     "environment": "monitoring-env",
+    "model": "gemini-2.0-flash",
     "description": "Monitor application metrics and set up alerts. Track response times, error rates, throughput, and resource utilization from Datadog, Grafana, or CloudWatch.",
     "tools": [
       { "name": "query_metrics", "description": "Query time-series metrics data." },

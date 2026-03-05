@@ -61,6 +61,9 @@ export default function ScenarioCard({ scenario, rank }: ScenarioCardProps) {
                 <span className="text-xs text-muted font-mono px-2 py-0.5 rounded border border-gray-300">
                   {scenario.environment}
                 </span>
+                <span className="text-xs font-mono px-2 py-0.5 rounded border border-orange-300 bg-orange-50 text-orange-700">
+                  {scenario.model}
+                </span>
               </div>
             </div>
             {scenario.score > 0 && <ConfidenceBadge score={scenario.score} />}

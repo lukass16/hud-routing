@@ -52,7 +52,7 @@ export default function SearchBar({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="What do you need an agent to do?"
-            className="w-full pl-12 pr-24 py-4 text-lg rounded-full border border-border bg-card shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent placeholder:text-muted/60"
+            className="w-full pl-12 pr-28 py-4 text-lg rounded-full border border-black bg-white shadow-brutal focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent placeholder:text-gray-400"
             disabled={isLoading}
           />
           {query && (
@@ -69,7 +69,7 @@ export default function SearchBar({
           <button
             type="submit"
             disabled={isLoading || !query.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-white text-black border border-black rounded-full text-sm font-medium shadow-brutal hover:shadow-brutal-hover hover:-translate-x-px hover:-translate-y-[calc(50%+1px)] disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:translate-x-0"
           >
             {isLoading ? "Searching..." : "Search"}
           </button>

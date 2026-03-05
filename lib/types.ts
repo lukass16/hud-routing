@@ -31,3 +31,8 @@ export interface ScenarioEntry {
 export interface SearchResult extends ScenarioEntry {
   score: number;
 }
+
+export interface SearchResponse {
+  results: SearchResult[];
+  refinedQuery: string;
+}

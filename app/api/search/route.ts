@@ -12,9 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const results = await searchScenarios(query);
+    const { results, refinedQuery } = await searchScenarios(query);
 
-    return NextResponse.json({ results });
+    return NextResponse.json({ results, refinedQuery });
   } catch (error) {
     console.error("Search error:", error);
     return NextResponse.json(

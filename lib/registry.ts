@@ -1,5 +1,6 @@
-import { ScenarioEntry, SearchResult } from "./types";
+import { ScenarioEntry, SearchResult, SearchResponse } from "./types";
 import { embed, cosineSimilarity } from "./embeddings";
+import { refineQuery } from "./query-refinement";
 import scenariosData from "../data/scenarios.json";
 
 let cachedScenarios: ScenarioEntry[] | null = null;
@@ -30,11 +31,13 @@ async function getEmbeddedScenarios(): Promise<ScenarioEntry[]> {
 export async function searchScenarios(
   query: string,
   topK = 20
-): Promise<SearchResult[]> {
-  const [queryEmbedding, scenarios] = await Promise.all([
-    embed(query),
+): Promise<SearchResponse> {
+  const [refinedQuery, scenarios] = await Promise.all([
+    refineQuery(query),
     getEmbeddedScenarios(),
   ]);
+
+  const queryEmbedding = await embed(refinedQuery);
 
   const results: SearchResult[] = scenarios.map((scenario) => ({
     ...scenario,
@@ -42,7 +45,7 @@ export async function searchScenarios(
   }));
 
   results.sort((a, b) => b.score - a.score);
-  return results.slice(0, topK);
+  return { results: results.slice(0, topK), refinedQuery };
 }
 
 export async function getAllScenarios(): Promise<ScenarioEntry[]> {

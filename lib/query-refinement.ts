@@ -1,8 +1,10 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getClient(): OpenAI {
+  if (!_openai) _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return _openai;
+}
 
 const SYSTEM_PROMPT = `You are a tool-request generator for an agent routing system. The system contains agent scenarios, each described by a name, description, list of available tools (with descriptions), and accepted parameters.
 
@@ -16,7 +18,7 @@ Write a single dense paragraph. Do not use bullet points, JSON, or any structure
 
 export async function refineQuery(rawQuery: string): Promise<string> {
   try {
-    const response = await openai.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },

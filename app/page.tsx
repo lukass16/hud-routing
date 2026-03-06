@@ -14,6 +14,7 @@ export default function Home() {
   const [hasSearched, setHasSearched] = useState(false);
   const [refinedQuery, setRefinedQuery] = useState<string | null>(null);
   const [showRefinedQuery, setShowRefinedQuery] = useState(false);
+  const [useQueryExpansion, setUseQueryExpansion] = useState(true);
 
   useEffect(() => {
     fetch("/api/scenarios")
@@ -46,7 +47,7 @@ export default function Home() {
       const res = await fetch("/api/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, refine: useQueryExpansion }),
       });
       const data = await res.json();
       setResults(data.results);
@@ -122,7 +123,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className={`pt-20 px-6 ${hasSearched ? "pb-6" : "pb-12"}`}>
+      <section className={`pt-20 px-6 ${hasSearched ? "pb-6" : "pb-6"}`}>
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="font-serif text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-tight mb-4">
             Route to the right agent
@@ -139,33 +140,53 @@ export default function Home() {
             scenarioCount={scenarios.length}
           />
 
-          {/* Collapsible query expansion subtitle */}
-          {hasSearched && !isLoading && refinedQuery && (
-            <div className="mt-3 max-w-2xl mx-auto">
-              <button
-                onClick={() => setShowRefinedQuery((v) => !v)}
-                className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          {/* Query expansion toggle + collapsible result */}
+          <div className="mt-3 max-w-2xl mx-auto flex flex-col items-center gap-1.5">
+            <button
+              onClick={() => setUseQueryExpansion((v) => !v)}
+              className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <span
+                className={`relative inline-block w-6 h-3.5 rounded-full transition-colors ${
+                  useQueryExpansion ? "bg-amber-400" : "bg-gray-300"
+                }`}
               >
-                <svg className="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span>Query expansion</span>
-                <svg
-                  className={`w-3 h-3 transition-transform duration-200 ${showRefinedQuery ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                <span
+                  className={`absolute top-0.5 left-0.5 w-2.5 h-2.5 rounded-full bg-white transition-transform ${
+                    useQueryExpansion ? "translate-x-2.5" : ""
+                  }`}
+                />
+              </span>
+              <span>Query expansion</span>
+            </button>
+
+            {hasSearched && !isLoading && refinedQuery && (
+              <div>
+                <button
+                  onClick={() => setShowRefinedQuery((v) => !v)}
+                  className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {showRefinedQuery && (
-                <p className="mt-1.5 text-xs text-gray-500 leading-relaxed text-left">
-                  {refinedQuery}
-                </p>
-              )}
-            </div>
-          )}
+                  <svg className="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>View expanded query</span>
+                  <svg
+                    className={`w-3 h-3 transition-transform duration-200 ${showRefinedQuery ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {showRefinedQuery && (
+                  <p className="mt-1.5 text-xs text-gray-500 leading-relaxed text-left">
+                    {refinedQuery}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 

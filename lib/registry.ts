@@ -30,10 +30,11 @@ async function getEmbeddedScenarios(): Promise<ScenarioEntry[]> {
 
 export async function searchScenarios(
   query: string,
-  topK = 20
+  topK = 20,
+  refine = true
 ): Promise<SearchResponse> {
   const [refinedQuery, scenarios] = await Promise.all([
-    refineQuery(query),
+    refine ? refineQuery(query) : Promise.resolve(query),
     getEmbeddedScenarios(),
   ]);
 
@@ -45,7 +46,10 @@ export async function searchScenarios(
   }));
 
   results.sort((a, b) => b.score - a.score);
-  return { results: results.slice(0, topK), refinedQuery };
+  return {
+    results: results.slice(0, topK),
+    refinedQuery: refine ? refinedQuery : null,
+  };
 }
 
 export async function getAllScenarios(): Promise<ScenarioEntry[]> {

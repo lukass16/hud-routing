@@ -3,7 +3,7 @@ import { searchScenarios } from "@/lib/registry";
 
 export async function POST(request: NextRequest) {
   try {
-    const { query } = await request.json();
+    const { query, refine } = await request.json();
 
     if (!query || typeof query !== "string") {
       return NextResponse.json(
@@ -12,7 +12,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { results, refinedQuery } = await searchScenarios(query);
+    const { results, refinedQuery } = await searchScenarios(
+      query,
+      20,
+      refine !== false
+    );
 
     return NextResponse.json({ results, refinedQuery });
   } catch (error) {

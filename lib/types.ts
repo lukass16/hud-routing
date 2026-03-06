@@ -34,5 +34,5 @@ export interface SearchResult extends ScenarioEntry {
 
 export interface SearchResponse {
   results: SearchResult[];
-  refinedQuery: string;
+  refinedQuery: string | null;
 }
